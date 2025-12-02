@@ -1,8 +1,24 @@
+* Debugging
+Adiciona bloco de /debugging/ para meu init.el
+
+#+begin_src elisp
+
+(if init-file-debug
+      (setq use-package-verbose t
+            use-package-expand-minimally nil
+            use-package-compute-statistics t
+            debug-on-error t)
+    (setq use-package-verbose nil
+          use-package-expand-minimally t))
+  
+#+end_src
+
+
 * Pacotes
 
 ** Inicialização de Pacotes
 
-#+begin_src elisp :results none
+#+begin_src elisp :results none 
   (require 'package)
     
     (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -18,13 +34,27 @@
   (setq use-package-always-ensure t)
 #+end_src
 
-
 ** Rainbow Delimiters
 Pintam os parênteses para ficar mais fácil de acompanhar.
 #+begin_src elisp :results none 
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
+    (use-package rainbow-delimiters
+      :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
+
+** General
+Pacote para configurar mais facilmente /keybindings/.
+
+#+begin_src elisp :results none
+  (use-package general
+           :config
+            (general-evil-setup t)
+        	(general-create-definer rune/leader-keys
+     				:keymaps '(normal insert visual emacs)
+      				:prefix "SPC"
+     				:global-prefix "C-SPC"))
+
+#+end_src
+
 
 * Configuração Inicial
 
@@ -61,6 +91,15 @@ Liga o número das linhas em tudo, exceto alguns modos.
     		term-mode-hook
     		eshell-mode-hook))
       (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+
+** ESC para Sair
+
+Configura o botão de ESC para servir como C-g
+
+#+begin_src elisp :results none
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 
