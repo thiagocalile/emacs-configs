@@ -1,5 +1,24 @@
 * Pacotes
 
+** Inicialização de Pacotes
+
+#+begin_src elisp :results none
+  (require 'package)
+    
+    (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+
+
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+
 ** Rainbow Delimiters
 Pintam os parênteses para ficar mais fácil de acompanhar.
 #+begin_src elisp :results none 
@@ -43,6 +62,7 @@ Liga o número das linhas em tudo, exceto alguns modos.
     		eshell-mode-hook))
       (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
+
 
 * Configuração visual
 Para todas as questões que vão além da UI básica, mas sim
