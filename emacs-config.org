@@ -1,0 +1,55 @@
+* Pacotes
+
+** Rainbow Delimiters
+Pintam os parênteses para ficar mais fácil de acompanhar.
+#+begin_src elisp :results none 
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+* Configuração Inicial
+
+** Mensagem de início
+Inibe a mensagem de início
+#+begin_src elisp :results none
+  (setq inhibit-startup-message t)
+#+end_src
+
+** Sino Visual
+Inicia sino visual
+
+#+begin_src elisp :results none
+  (setq visible-bell t)
+#+end_src
+
+** Elementos de UI
+Desliga elementos da interface de usuário, para
+um /look/ mais /clean/.
+
+#+begin_src elisp :results none
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+#+end_src
+
+*** Números das linhas
+Liga o número das linhas em tudo, exceto alguns modos.
+#+begin_src elisp :results none
+    (global-display-line-numbers-mode t)
+
+    (column-number-mode)
+    (dolist (mode '(org-mode-hook
+    		term-mode-hook
+    		eshell-mode-hook))
+      (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+* Configuração visual
+Para todas as questões que vão além da UI básica, mas sim
+cores e temas, fontes e etc.
+** Tema
+Um tema simples para tudo
+#+begin_src elisp :results none
+  (load-theme 'modus-vivendi t)
+#+end_src
+
