@@ -85,7 +85,6 @@ Pacote para configurar mais facilmente /keybindings/.
 
 #+end_src
 
-
 ** Which Key
 Nos dá o menu da árvore de comandos, acessível com qual atalho
 
@@ -100,6 +99,71 @@ Nos dá o menu da árvore de comandos, acessível com qual atalho
 
 #+end_src
 
+** Doom Modeline
+
+Lembre-se de rodar o comando _M-x all-the-icons-install-fonts_ para fazer tudo funcionar legal.
+
+#+begin_src elisp :results none
+  (use-package all-the-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+#+end_src
+
+** Ivy
+
+Sistema muito robusto para completar comandos.
+
+#+begin_src elisp :results none
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+    :map ivy-minibuffer-map
+        ("TAB". ivy-alt-done)
+        ("C-l" . ivy-alt-done)
+        ("C-j" . ivy-next-line)
+        ("C-k" . ivy-previous-line)
+     :map ivy-switch-buffer-map
+        ("C-k" . ivy-precious-line)
+        ("C-l" . ivy-done)
+        ("C-d" . ivy-switch-buffer-kill)
+     :map ivy-reverse-i-search-map
+  	("C-k" . ivy-previous-line)
+  	("C-d" . ivy-reverse-i-search-kill))
+     :config
+     (ivy-mode 1)
+     )
+#+end_src
+
+
+*** Ivy Rich
+
+Complementa como o ivy se comporta com o counsel.
+
+#+begin_src elisp :results none
+        (use-package ivy-rich
+          :after ivy
+          :init
+  	(ivy-rich-mode 1))
+#+end_src
+
+
+** Counsel
+
+Mais um /framework/ de completar comandos. Essencial para termos funcionalidade mais complicada.
+
+#+begin_src elisp :results none
+  (use-package counsel
+  :bind (("C-M-j" . 'counsel-switch-buffer)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history))
+  :custom
+  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config
+  (counsel-mode 1))
+#+end_src
+    
 
 * Configuração Inicial
 
