@@ -13,6 +13,10 @@ Adiciona bloco de /debugging/ para meu init.el
   
 #+end_src
 
+#+RESULTS:
+: t
+
+
 
 * Pacotes
 
@@ -41,6 +45,32 @@ Pintam os parênteses para ficar mais fácil de acompanhar.
       :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** Evil
+Vamos usar a movimentação do Vim.
+
+#+begin_src elisp :results none
+
+            (use-package evil
+              :init
+              (setq evil-want-integration t)
+              (setq evil-want-keybinding nil)
+              (setq evil-want-C-u-scroll t)
+      	(setq evil-want-C-i-jump nil)
+    	:config
+  	(evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  )
+              
+
+#+end_src
+
 ** General
 Pacote para configurar mais facilmente /keybindings/.
 
@@ -52,6 +82,21 @@ Pacote para configurar mais facilmente /keybindings/.
      				:keymaps '(normal insert visual emacs)
       				:prefix "SPC"
      				:global-prefix "C-SPC"))
+
+#+end_src
+
+
+** Which Key
+Nos dá o menu da árvore de comandos, acessível com qual atalho
+
+#+begin_src elisp :results none
+
+  (use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 1))
 
 #+end_src
 
