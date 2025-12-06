@@ -71,6 +71,18 @@ Vamos usar a movimentação do Vim.
 
 #+end_src
 
+*** Evil Collection
+
+Ajuda a deifnir atalhos do tipo Evil.
+
+#+begin_src emacs-lisp :results none
+  (use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+end_src
+
+
 ** General
 Pacote para configurar mais facilmente /keybindings/.
 
@@ -136,7 +148,6 @@ Sistema muito robusto para completar comandos.
      )
 #+end_src
 
-
 *** Ivy Rich
 
 Complementa como o ivy se comporta com o counsel.
@@ -147,7 +158,6 @@ Complementa como o ivy se comporta com o counsel.
           :init
   	(ivy-rich-mode 1))
 #+end_src
-
 
 ** Counsel
 
@@ -164,6 +174,39 @@ Mais um /framework/ de completar comandos. Essencial para termos funcionalidade 
   (counsel-mode 1))
 #+end_src
     
+** Dired
+
+O melhor explorador de arquivos disponível.
+
+#+begin_src emacs-lisp :results none
+  (use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-open
+  :commands (dired dired-jump)
+  :config
+  ;; Doesn't work as expected!
+  ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+  (setq dired-open-extensions '(("png" . "feh")
+                                ("mkv" . "mpv"))))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
+#+end_src
+
 
 * Configuração Inicial
 
