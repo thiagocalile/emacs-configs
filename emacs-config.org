@@ -1,3 +1,21 @@
+* Básico do Sistema
+
+Preciso ainda acrescentar o /bootstrapper/ para a configuração.
+No caso, seria para ela conseguir cuspir o init.el daqui de dentro mesmo, dando só um
+org-babel-tangle o primeiro bloco.
+Isso ainda não é crítico. Podemos deixar pra mais tarde.
+
+Entretanto, temos algumas coisas que precisamos tratar para ter boa documentação e tudo
+em um só lugar (pense "se der problema, só preciso daqui para resolver").
+
+Então, vamos para alguns exemplos simples de configuração:
+
+** Dando configurações para o General
+
+Principalmente, assim que cuidamos dos nossos atalhos. O General.el é bem capaz.
+A questão é que ele é meio chato de manter, já que o maa é meio maluco mesmo. Ainda mais
+que precisamos do which-key.
+
 * Debugging
 Adiciona bloco de /debugging/ para meu init.el
 
@@ -88,13 +106,19 @@ Pacote para configurar mais facilmente /keybindings/.
 
 #+begin_src elisp :results none
   (use-package general
-           :config
-            (general-evil-setup t)
-        	(general-create-definer rune/leader-keys
-     				:keymaps '(normal insert visual emacs)
-      				:prefix "SPC"
-     				:global-prefix "C-SPC"))
+    :config
+    (general-evil-setup t)
+    (defconst leader-key "SPC")
+    (general-create-definer leader-key-def
+        :prefix leader-key)
+    (leader-key-def
+        :states '(motion normal visual)
+        :keymaps 'override
 
+        "o" '(:ignore t :which-key "Org")
+        "oa" '(org-agenda :which-key "Agenda")
+    )
+  )  
 #+end_src
 
 ** Which Key
@@ -123,9 +147,9 @@ Lembre-se de rodar o comando _M-x all-the-icons-install-fonts_ para fazer tudo f
     :custom ((doom-modeline-height 15)))
 
   ;; Também precisamos instalar as fontes de fato:
-
-  (all-the-icons-install-fonts)
-  (nerd-icons-install-fonts)
+  ;; é só tirar o comentário e executar uma vez
+  ;;(all-the-icons-install-fonts)
+  ;;(nerd-icons-install-fonts)
 #+end_src
 
 ** Ivy
@@ -275,5 +299,23 @@ cores e temas, fontes e etc.
 Um tema simples para tudo
 #+begin_src elisp :results none
   (load-theme 'modus-vivendi t)
+#+end_src
+
+* Configuração por Pacote
+
+
+** Org mode
+
+#+begin_src emacs-lisp :results none
+  (general-create-definer local-leader-def
+    :prefix "SPC M"
+    :states '(normal visual motion))
+  
+  (use-package org
+                :ensure t
+                :config
+        	(local-leader-def
+      	 :keymaps 'org-mode-map
+    	 "t" '(org-todo :which-key "Change todo state")))
 #+end_src
 
