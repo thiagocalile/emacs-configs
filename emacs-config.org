@@ -116,11 +116,16 @@ Nos dá o menu da árvore de comandos, acessível com qual atalho
 Lembre-se de rodar o comando _M-x all-the-icons-install-fonts_ para fazer tudo funcionar legal.
 
 #+begin_src elisp :results none
-  (use-package all-the-icons)
+    (use-package all-the-icons)
 
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 15)))
+
+  ;; Também precisamos instalar as fontes de fato:
+
+  (all-the-icons-install-fonts)
+  (nerd-icons-install-fonts)
 #+end_src
 
 ** Ivy
@@ -205,6 +210,14 @@ O melhor explorador de arquivos disponível.
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
+#+end_src
+
+
+** Org Roam
+Essa é a parte mais interessante, já que queremos o Zettelkasten para facilitar as configurações.
+
+#+begin_src emacs-lisp :results none
+  (use-package org-roam)
 #+end_src
 
 
